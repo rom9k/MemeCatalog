@@ -32,34 +32,59 @@ namespace Coursework
 
             if (openFileDialog.ShowDialog() == true)
             {
+                //путь к изображению
                 string selectedImagePath = openFileDialog.FileName;
-                // Действия с выбранным изображением здесь
-
-                // Получите имя и категорию из текстовых полей
+                //имя категория теги
                 string memeName = name.Text;
                 string categoryName = namecategory.Text;
-                UpdateMemeImagePaths(memeName, selectedImagePath, categoryName);
+                string tags = nametag.Text;
 
-                // Обновление данных в MainWindow
+                UpdateMemeImagePaths(memeName, selectedImagePath, categoryName, tags);
+
+                //обновление данных в MainWindow
                 ((MainWindow)this.Owner).UpdateListBoxAndComboBox(memeName, categoryName);
             }
+
         }
 
-        private void UpdateMemeImagePaths(string memeName, string imagePath, string categoryName)
+        private void UpdateMemeImagePaths(string memeName, string imagePath, string categoryName, string tags)
         {
-            // Обновляем словарь memeImagePaths
+            //обновляем словарь memeImagePaths
             ((MainWindow)this.Owner).memeImagePaths.Add(memeName, imagePath);
 
-            // Проверяем наличие категории в словаре категорий
+            //проверка наличие категории в словаре категорий
             if (!((MainWindow)this.Owner).categoryMemes.ContainsKey(categoryName))
             {
-                // Если категории нет, добавляем новую категорию и мем в эту категорию
+                //добавление новой категории и мема в эту категорию
                 ((MainWindow)this.Owner).categoryMemes.Add(categoryName, new List<string> { memeName });
             }
             else
             {
-                // Если категория уже существует, добавляем мем в эту категорию
+                //добавление мема в категорию
                 ((MainWindow)this.Owner).categoryMemes[categoryName].Add(memeName);
+            }
+
+            //сохранение тегов для данного мема
+            List<string> tagList = tags.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+            MemesData memeData = new MemesData
+            {
+                Category = categoryName,
+                Name = memeName,
+                ImagePath = imagePath,
+                Tags = tagList
+            };
+
+            //добавление тегов мема в коллекцию
+            foreach (string tag in tagList)
+            {
+                if (((MainWindow)this.Owner).tagMemes.ContainsKey(tag))
+                {
+                    ((MainWindow)this.Owner).tagMemes[tag].Add(memeData);
+                }
+                else
+                {
+                    ((MainWindow)this.Owner).tagMemes[tag] = new List<MemesData> { memeData };
+                }
             }
         }
     }

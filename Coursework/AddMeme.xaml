@@ -7,10 +7,12 @@
         mc:Ignorable="d"
         Title="AddMeme" Height="440" Width="698">
     <Grid>
-        <TextBox x:Name="name" HorizontalAlignment="Left" Height="50" Margin="187,120,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="150"/>
-        <Button x:Name="search" Content="Button" HorizontalAlignment="Left" Height="49" Margin="400,0,0,0" VerticalAlignment="Center" Width="135" Click="search_Click"/>
-        <TextBox x:Name="namecategory" HorizontalAlignment="Left" Height="50" Margin="187,262,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="150"/>
-        <Label Content="Title:" HorizontalAlignment="Left" Height="40" Margin="187,75,0,0" VerticalAlignment="Top" Width="150" FontSize="24"/>
-        <Label Content="Category:" HorizontalAlignment="Left" Height="50" Margin="187,217,0,0" VerticalAlignment="Top" Width="150" FontSize="24"/>
+        <TextBox x:Name="name" HorizontalAlignment="Left" Height="50" Margin="181,135,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="150"/>
+        <Button x:Name="search" Content="Choose a path" HorizontalAlignment="Left" Height="50" Margin="368,247,0,0" VerticalAlignment="Top" Width="150" Click="search_Click" FontSize="18"/>
+        <TextBox x:Name="namecategory" HorizontalAlignment="Left" Height="50" Margin="181,247,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="150"/>
+        <Label Content="Title:" HorizontalAlignment="Left" Height="40" Margin="181,90,0,0" VerticalAlignment="Top" Width="150" FontSize="24"/>
+        <Label Content="Category:" HorizontalAlignment="Left" Height="50" Margin="181,202,0,0" VerticalAlignment="Top" Width="150" FontSize="24"/>
+        <Label Content="Tag:" HorizontalAlignment="Left" Height="51" Margin="368,90,0,0" VerticalAlignment="Top" Width="150" FontSize="24"/>
+        <TextBox x:Name="nametag" HorizontalAlignment="Left" Height="50" Margin="368,135,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="150"/>
     </Grid>
 </Window>

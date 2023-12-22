@@ -7,10 +7,10 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <ListBox x:Name="spisok" HorizontalAlignment="Left" Height="320" Margin="10,81,0,0" VerticalAlignment="Top" Width="180" d:ItemsSource="{d:SampleData ItemCount=5}" SelectionChanged="spisok_SelectionChanged"/>
+        <ListBox x:Name="spisok" HorizontalAlignment="Left" Height="285" Margin="10,116,0,0" VerticalAlignment="Top" Width="180" d:ItemsSource="{d:SampleData ItemCount=5}" SelectionChanged="spisok_SelectionChanged"/>
         <Image x:Name="img" HorizontalAlignment="Left" Height="300" Margin="345,46,0,0" VerticalAlignment="Top" Width="400"/>
         <ComboBox x:Name="category" HorizontalAlignment="Left" Height="31" Margin="10,10,0,0" VerticalAlignment="Top" Width="180" SelectionChanged="category_SelectionChanged"/>
-        <TextBox x:Name="poisk" HorizontalAlignment="Left" Height="30" Margin="10,46,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="180" TextChanged="poisk_TextChanged"/>
+        <TextBox x:Name="poisk" HorizontalAlignment="Left" Height="30" Margin="10,81,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="180" TextChanged="poisk_TextChanged"/>
         <Button x:Name="add" Content="Add" HorizontalAlignment="Left" Height="45" Margin="195,10,0,0" VerticalAlignment="Top" Width="100
                 " Click="add_Click" RenderTransformOrigin="2.804,3.625"/>
         <Button x:Name="delete" Content="Delete" HorizontalAlignment="Left" Height="45" Margin="195,60,0,0" VerticalAlignment="Top" Width="100
@@ -19,6 +19,7 @@
                 " Click="save_Click"/>
         <Button x:Name="load" Content="Load" HorizontalAlignment="Left" Margin="195,356,0,0" VerticalAlignment="Top" Height="45" Width="100
                 " Click="load_Click"/>
+        <TextBox x:Name="poisktag" HorizontalAlignment="Left" Height="30" Margin="10,46,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="180" TextChanged="poisktag_TextChanged"/>
 
     </Grid>
 </Window>

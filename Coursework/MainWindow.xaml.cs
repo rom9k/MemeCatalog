@@ -12,8 +12,9 @@ namespace Coursework
 {
     public partial class MainWindow : Window
     {
-        public Dictionary<string, string> memeImagePaths = new Dictionary<string, string>(); // Словарь для хранения мемов и путей к изображениям
-        public Dictionary<string, List<string>> categoryMemes = new Dictionary<string, List<string>>(); // Словарь для хранения категорий и мемов в каждой категории
+        public Dictionary<string, string> memeImagePaths = new Dictionary<string, string>(); //хранение мемов и путей к ним
+        public Dictionary<string, List<string>> categoryMemes = new Dictionary<string, List<string>>(); //хранение категорий и мемов в каждой из них
+        public Dictionary<string, List<MemesData>> tagMemes = new Dictionary<string, List<MemesData>>();//хранение тегов
 
         public MainWindow()
         {
@@ -23,15 +24,16 @@ namespace Coursework
 
         private void add_Click(object sender, RoutedEventArgs e)
         {
+
             AddMeme addMemeWindow = new AddMeme();
-            addMemeWindow.Owner = this; // Установите MainWindow как владельца окна AddMeme
+            addMemeWindow.Owner = this; //MainWindow как владелец окна AddMeme
             addMemeWindow.ShowDialog();
         }
 
         public void UpdateListBoxAndComboBox(string memeName, string categoryName)
         {
-            // Обновление ListBox и ComboBox здесь
-            spisok.Items.Add(memeName); // Добавление имени мема в ListBox
+            //обновление ListBox и ComboBox
+            spisok.Items.Add(memeName);
 
             bool categoryExists = false;
             foreach (ComboBoxItem item in category.Items)
@@ -47,7 +49,7 @@ namespace Coursework
             {
                 ComboBoxItem newCategoryItem = new ComboBoxItem();
                 newCategoryItem.Content = categoryName;
-                category.Items.Add(newCategoryItem); // Добавление новой категории в ComboBox
+                category.Items.Add(newCategoryItem);
             }
         }
 
@@ -56,30 +58,21 @@ namespace Coursework
             if (spisok.SelectedItem != null)
             {
                 string selectedMemeName = spisok.SelectedItem.ToString();
-                // Получите изображение по имени мема и отобразите его в Image (img)
+                //изображение по имени мема
                 DisplayMemeImage(selectedMemeName);
             }
         }
 
         private void DisplayMemeImage(string memeName)
         {
-            // Получите путь к изображению для выбранного мема (memeName)
-            // Например, если у вас есть словарь с путями к изображениям, используйте его
+            //путь к изображению для выбранного мема
             string imagePath = GetImagePathForMeme(memeName);
 
             if (!string.IsNullOrEmpty(imagePath))
             {
-                try
-                {
-                    // Установите изображение в элемент Image (img)
+                    //изображение в элемент Image
                     Uri uri = new Uri(imagePath);
                     img.Source = new System.Windows.Media.Imaging.BitmapImage(uri);
-                }
-                catch (Exception ex)
-                {
-                    // Обработайте ошибки загрузки изображения
-                    Console.WriteLine("Error: " + ex.Message);
-                }
             }
         }
 
@@ -91,7 +84,7 @@ namespace Coursework
             }
             else
             {
-                return string.Empty; // Если путь к изображению не найден
+                return string.Empty; //путь к изображению не найден
             }
         }
 
@@ -107,13 +100,13 @@ namespace Coursework
 
             if (!string.IsNullOrEmpty(selectedCategory))
             {
-                // Очищаем список мемов
+                //очистка списка мемов
                 spisok.Items.Clear();
 
-                // Проверяем наличие выбранной категории в словаре категорий
+                //проверка наличия выбранной категории в словаре категорий
                 if (categoryMemes.ContainsKey(selectedCategory))
                 {
-                    // Добавляем мемы выбранной категории в ListBox (spisok)
+                    //добавление мема выбранной категории в ListBox
                     foreach (var meme in categoryMemes[selectedCategory])
                     {
                         spisok.Items.Add(meme);
@@ -122,7 +115,7 @@ namespace Coursework
             }
             else
             {
-                // Если категория не выбрана, отображаем все мемы
+                //категория не выбрана
                 foreach (var meme in memeImagePaths.Keys)
                 {
                     spisok.Items.Add(meme);
@@ -136,15 +129,12 @@ namespace Coursework
             {
                 string selectedMeme = spisok.SelectedItem.ToString();
                 spisok.Items.Remove(selectedMeme);
-
-                // Удаление также из словаря или других структур данных, хранящих мемы
-                // Например, из словаря memeImagePaths
+                //удаление из словаря
                 if (memeImagePaths.ContainsKey(selectedMeme))
                 {
                     memeImagePaths.Remove(selectedMeme);
                 }
-
-                // Также удалите из категорий, если они использовались для хранения мемов
+                //удаление из категорий
                 foreach (var categoryList in categoryMemes.Values)
                 {
                     if (categoryList.Contains(selectedMeme))
@@ -157,18 +147,18 @@ namespace Coursework
 
         private void poisk_TextChanged(object sender, TextChangedEventArgs e)
         {
-            string searchText = poisk.Text.ToLower(); // Получаем текст из TextBox и приводим к нижнему регистру для поиска без учета регистра
-            spisok.Items.Clear(); // Очищаем ListBox для вывода результата поиска
+            string searchText = poisk.Text.ToLower(); //приведение к нижнему регистру
+            spisok.Items.Clear(); //очистка ListBox
 
-            // Перебираем все категории
+            //перебор всех категории
             foreach (var categoryMemeList in categoryMemes.Values)
             {
-                // Перебираем мемы в текущей категории
+                //перебор мемов
                 foreach (var meme in categoryMemeList)
                 {
-                    if (meme.ToLower().Contains(searchText)) // Проверяем, содержит ли название мема текст из TextBox
+                    if (meme.ToLower().Contains(searchText)) //проверка на название мема
                     {
-                        spisok.Items.Add(meme); // Если да, добавляем мем в ListBox
+                        spisok.Items.Add(meme);
                     }
                 }
             }
@@ -178,7 +168,7 @@ namespace Coursework
         {
             List<MemesData> memesToSave = new List<MemesData>();
 
-            // Заполнение списка memesToSave данными о мемах
+            // заполнение списка memesToSave данными о мемах
             foreach (var category in categoryMemes)
             {
                 foreach (var meme in category.Value)
@@ -187,21 +177,40 @@ namespace Coursework
                     {
                         Category = category.Key,
                         Name = meme,
-                        ImagePath = memeImagePaths[meme]
+                        ImagePath = memeImagePaths[meme],
+                        Tags = GetTagsForMeme(meme)
                     };
                     memesToSave.Add(memeData);
                 }
             }
 
-            // Выбор места сохранения файла
+            // выбор места сохранения файла
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.Filter = "JSON Files (*.json)|*.json";
             if (saveFileDialog.ShowDialog() == true)
             {
-                // Сериализация списка в JSON и сохранение в выбранный файл
+                // перевод в формат JSON и сохранение в выбранный файл
                 string jsonData = JsonConvert.SerializeObject(memesToSave);
                 File.WriteAllText(saveFileDialog.FileName, jsonData);
             }
+        }
+
+        private List<string> GetTagsForMeme(string memeName)
+        {
+            List<string> tags = new List<string>();
+
+            foreach (var tagMemeList in tagMemes)
+            {
+                foreach (var memeData in tagMemeList.Value)
+                {
+                    if (memeData.Name == memeName)
+                    {
+                        tags.AddRange(memeData.Tags);
+                    }
+                }
+            }
+
+            return tags.Distinct().ToList();
         }
 
         private void load_Click(object sender, RoutedEventArgs e)
@@ -217,7 +226,7 @@ namespace Coursework
 
                 UpdateMemesAfterLoad(loadedMemes);
 
-                // Отображение названий загруженных мемов в label "loadspisok" в окне LoadMeme
+                // отображение названий загруженных мемов при загрузке
                 LoadMeme loadMemeWindow = new LoadMeme();
                 loadMemeWindow.Owner = this;
                 loadMemeWindow.loadspisok.Content = string.Join("\n", loadedMemes.Select(meme => meme.Name));
@@ -227,57 +236,90 @@ namespace Coursework
 
         private void UpdateMemesAfterLoad(List<MemesData> loadedMemes)
         {
-            // Очищаем данные перед загрузкой новых мемов
+            // очистка данных перед загрузкой новых мемов
             memeImagePaths.Clear();
             categoryMemes.Clear();
             category.Items.Clear();
             spisok.Items.Clear();
+            tagMemes.Clear();
 
-            // Загрузка мемов из списка loadedMemes
+            // загрузка мемов
             foreach (var memeData in loadedMemes)
             {
-                // Добавление мема в словарь memeImagePaths
+                // добавление мема в словарь memeImagePaths
                 memeImagePaths.Add(memeData.Name, memeData.ImagePath);
 
-                // Добавление категории, если ее еще нет
+                // добавление категории
                 if (!categoryMemes.ContainsKey(memeData.Category))
                 {
                     categoryMemes.Add(memeData.Category, new List<string>());
-
-                    // Создание объекта ComboBoxItem для новой категории
                     ComboBoxItem newItem = new ComboBoxItem();
                     newItem.Content = memeData.Category;
-
-                    // Добавление объекта ComboBoxItem в ComboBox "category"
                     category.Items.Add(newItem);
                 }
 
-                // Добавление мема в соответствующую категорию
+                // добавление мема в соответствующую категорию
                 categoryMemes[memeData.Category].Add(memeData.Name);
+
+                // добавление тегов
+                foreach (var tag in memeData.Tags)
+                {
+                    if (tagMemes.ContainsKey(tag))
+                    {
+                        tagMemes[tag].Add(memeData);
+                    }
+                    else
+                    {
+                        tagMemes[tag] = new List<MemesData> { memeData };
+                    }
+                }
             }
 
-            // Обновление интерфейса
+            // обновление интерфейса
             foreach (var memeCategory in categoryMemes)
             {
                 foreach (var meme in memeCategory.Value)
                 {
-                    spisok.Items.Add(meme); // Добавляем мемы в ListBox "spisok"
+                    spisok.Items.Add(meme);
                 }
             }
         }
 
-            private void UpdateSpisokWithSelectedCategory()
-        {
+        private void UpdateSpisokWithSelectedCategory()
+        { 
             string selectedCategory = category.SelectedItem?.ToString();
 
             if (!string.IsNullOrEmpty(selectedCategory) && categoryMemes.ContainsKey(selectedCategory))
             {
                 spisok.Items.Clear();
-
-                // Добавляем мемы выбранной категории в ListBox (spisok)
+                //добавление мемов выбранной категории в ListBox
                 foreach (var meme in categoryMemes[selectedCategory])
                 {
                     spisok.Items.Add(meme);
+                }
+            }
+        }
+
+        private void poisktag_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            string searchText = poisktag.Text.ToLower(); // приведение к нижнему регистру
+            spisok.Items.Clear(); // очистка ListBox
+
+            var searchTags = searchText.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
+                                        .Select(tag => tag.Trim().ToLower())
+                                        .ToList();
+
+            foreach (var tagMemeList in tagMemes)
+            {
+                foreach (var memeData in tagMemeList.Value)
+                {
+                    if (searchTags.All(searchTag => memeData.Tags.Any(memeTag => memeTag.ToLower().Contains(searchTag))))
+                    {
+                        if (!spisok.Items.Contains(memeData.Name))
+                        {
+                            spisok.Items.Add(memeData.Name);
+                        }
+                    }
                 }
             }
         }
